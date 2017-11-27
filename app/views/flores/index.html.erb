@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" style="font-family: 'Montserrat';color: inherit;text-decoration: none;">
+     <nav class="navbar navbar-toggleable-md  bg-inverse navbar-custom">
+  <div class="container-fluid d-inline-flex">
+    <a class="navbar-brand justify-cotent-start" href="/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyQjFKB9VnhCPVy_MXkuf6pLBPqy_JrI43Qfi3pMjC45IdmY66" style="height: 300%;margin-top: 21px;"></a>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="nav navbar-nav ml-auto" style="float: right">
+        <li class="nav-item"><a class="nav-link" href="contacto" style="color:black">Contacto</a></li>
+        <li class="nav-item"><a class="nav-link" href="cuenta" style="color:black">Cuenta</a></li>
+        <li class="nav-item"><a class="nav-link" href="nosotros" style="color:black">Acerca de Nosotros</a></li>
+        <li><figure class="micanasta">
+            <a><img src="https://www.enviodivino.com/skin/frontend/floristta/default/images/icon-canasta.svg" alt="Mi Canasta de Compras" title="Mi Canasta de Compras" style="margin-top: 15px;"></a>
+      </figure></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</div>
+<div class="row" style="background-color: #FD471E;height: 29px;">
+<div>
+<br>
+<br>
+<body>
+<div class="container">
+<h1>Hola Administrador</h1>
+  <div class="col-md-12">
+      <div class="col-sm-4">
+      <h3>Agregar nuevas flores</h3>
+      <%= form_for @flores do |f| %>
+          <div class="form-group">
+            <%= f.label :nombre%>
+            <%= f.text_field :nombre, class:"form-control"%>
+          </div>
+          <div class="form-group">
+            <%= f.label :url %>
+            <%= f.text_field :url, class:"form-control"%>
+          </div>
+          <div class="form-group">
+            <%= f.label :descripcion %>
+            <%= f.text_field :descripcion, class:"form-control"%>
+          </div>
+          <div class="form-group">
+            <%= f.label :precio %>
+            <%= f.text_field :precio, class:"form-control"%>
+          </div>
+          <%= f.submit 'Guardar', class:"btn btn-info"%>
+      <%end %>
+      
+    </div>
+    <div class="col-md-8">
+      <% @flor.each do |f| %>
+      <div class="col-md-4">
+        <div class="col-md-12">
+          <img style="width: 88%;" src="<%=f.url %>">
+          <h4 style="text-align: center;"><%= f.nombre%></h4>
+          <p style="text-align: center"><%= f.descripcion%></p>
+          <strong><p style="text-align: center;">$<%= f.precio %></p></strong>
+          <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" style="margin-left: 23px;">editar</button>
+            <div id="demo" class="collapse">
+              <input class="form-group" id="name" value="<%= f.nombre%>">
+              <input class="form-group" id="descripcion_id" value="<%= f.descripcion%>">
+              <input class="form-group" value="<%= f.precio%>">
+              <a onClick="editar(<%= f.id%>)">guardar</a>
+            </div>
+        <button type="button" class="btn btn-info" onclick="eliminar(<%= f.id%>)">Eliminar</button>
+
+      </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+    
+</body>
+<script>
+   function editar(id){
+      $.ajax({
+        url: 'flores/editar',
+        type: "POST",
+        data: {
+          nombre: $('#name').val(),
+          id: id, 
+          descripcion: $('#descripcion_id').val()
+
+        }
+      });
+   }
+   function eliminar(id){
+    $.ajax({
+        url: 'flores/eliminar',
+        type: "POST",
+        data: {
+          nombre: $('#name').val(),
+          id: id
+        }
+      });
+   }
+</script>
+</html>
